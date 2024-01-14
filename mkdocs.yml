@@ -1,0 +1,21 @@
+site_name: qablet
+theme: readthedocs
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [qablet_contracts]
+
+nav:
+  - 'index.md'
+  - 'dataset.md'
+  - 'assets.md'
+  - 'Models':
+    - 'Monte-Carlo': 'models/mc.md'
+    - 'Finite-Difference': 'models/fd.md'
+  - 'Stats':
+    - 'stats/choices.md'
+    - 'stats/pvvec.md'

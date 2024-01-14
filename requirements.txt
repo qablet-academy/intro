@@ -1,0 +1,7 @@
+pyarrow
+pandas
+numpy
+scipy
+matplotlib
+qablet_contracts==0.1.1
+qablet-basic

@@ -1,0 +1,14 @@
+# This requirements are for development and testing only, not for production.
+pytest
+mkdocs
+mkdocstrings
+mkdocstrings-python
+pyarrow
+pandas
+numpy
+scipy
+nbmake
+nb-clean
+matplotlib
+qablet_contracts==0.1.1
+qablet-basic
