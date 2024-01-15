@@ -3,6 +3,7 @@ pytest
 mkdocs
 mkdocstrings
 mkdocstrings-python
+python-markdown-math
 pyarrow
 pandas
 numpy
