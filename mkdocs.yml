@@ -1,5 +1,7 @@
 site_name: qablet
 theme: readthedocs
+  icon:
+    logo: material/triangle
 
 plugins:
   - search

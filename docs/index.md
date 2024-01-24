@@ -1,8 +1,7 @@
-## What is Qablet?
+## Qablet Learning Path
 
 A Qablet timetable defines a financial product using a sequence of payments, choices and conditions. A valuation model implemented with a Qablet parser can value any contract, as long as the contract can be described using a Qablet Timetable.
 
-## Qablet Learning Path
 
 This repositary contains a [learning path](https://github.com/qablet-academy/intro/tree/main/notebooks) based on notebooks to explain
 
@@ -12,9 +11,11 @@ This repositary contains a [learning path](https://github.com/qablet-academy/int
 - how to create custom Monte-Carlo models
 
 
-## API Documentation
+## Contracts API
 
 For the documentation of the specification language to define financial contracts see [qablet.github.io/qablet-contracts](https://qablet.github.io/qablet-contracts/).
+
+## Model API
 
 For the documentation of the models in the `qablet` package,
 
