@@ -14,10 +14,10 @@ Start with the [first notebook](https://github.com/qablet-academy/intro/blob/mai
 
 ## API Documentation
 
-For the documentation of the specification language to define financial contracts see [qablet.github.io/qablet-contracts](https://qablet.github.io/qablet-contracts/).
+For the specification language to define financial contracts see [qablet-contracts](https://qablet.github.io/qablet-contracts/).
 
 
-For the documentation of the models in the `qablet` package, and how to use them see [qablet-academy.github.io/intro/](https://qablet-academy.github.io/intro/).
+For the models in the `qablet` package, and how to use them see [qablet-academy](https://qablet-academy.github.io/intro/).
 
 
 
