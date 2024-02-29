@@ -3,6 +3,6 @@ pandas
 numpy
 scipy
 matplotlib
-qablet_contracts==0.1.4
+qablet_contracts==0.1.5
 qablet-basic==0.2.3
 mercury
