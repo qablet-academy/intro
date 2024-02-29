@@ -3,11 +3,11 @@
 This repositary contains a [learning path](https://github.com/qablet-academy/intro/tree/main/notebooks) based on notebooks to explain
 
 - how to define contracts from basics, or using the `qablet_contracts` package.
-- how to value contracts using models from the `qablet` package.
+- how to value contracts using Monte-Carlo and Finite Difference models from the `qablet` package.
 - how to view various stats from the model
 - how to create custom Monte-Carlo models
 
-Start with the [first notebook](https://github.com/qablet-academy/intro/blob/main/notebooks/1_1_fixed_bond.ipynb).
+Start with the [first notebook here](https://github.com/qablet-academy/intro/blob/main/notebooks/1_1_fixed_bond.ipynb).
 
 
 
