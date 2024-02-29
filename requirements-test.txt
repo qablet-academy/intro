@@ -11,5 +11,6 @@ scipy
 nbmake
 nb-clean
 matplotlib
-qablet_contracts==0.1.3
+qablet_contracts==0.1.5
 qablet-basic==0.2.3
+mercury
