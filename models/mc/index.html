@@ -60,6 +60,16 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#heston-model">Heston Model</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#local-vol-model">Local Vol Model</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#fixed-vol">Fixed Vol</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vol-function">Vol Function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vol-interpolator">Vol Interpolator</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../fd/">Finite-Difference</a>
@@ -148,6 +158,86 @@ d \nu_t = \kappa (\theta - \nu_t) dt + \xi \sqrt \nu_tdW_t
     &quot;MEANREV&quot;: 2.78,
     &quot;CORRELATION&quot;: -0.85,
 }
+</code></pre>
+<p>The model can be used as</p>
+<pre><code class="language-python">from qablet.heston.mc import HestonMCModel
+
+dataset = {
+    &quot;BASE&quot;: ...
+    &quot;PRICING_TS&quot;: ...
+    &quot;ASSETS&quot;: ...
+    &quot;MC&quot;: ...
+    &quot;HESTON&quot;: ...
+}
+heston_model = HestonMCModel()
+price, stats = model.price(timetable, dataset)
+</code></pre>
+<h3 id="local-vol-model">Local Vol Model</h3>
+<p><code>qablet.black_scholes.mc.LVMCModel</code></p>
+<p>In the Local Vol model the lognormal stock process <script type="math/tex">X_t</script> is given by,</p>
+<p>
+<script type="math/tex; mode=display">
+dX_t = (\mu - \frac{\sigma_t^2}{2}) dt + \sigma_t dW_s
+</script>
+</p>
+<p>Where <script type="math/tex">\sigma_t</script> is a function of <script type="math/tex">X_t</script> and <script type="math/tex">t</script>.</p>
+<p>The model specific component in the dataset (<code>LV</code>) is a dict with two parameters <code>ASSET</code> and <code>VOL</code>.</p>
+<h4 id="fixed-vol">Fixed Vol</h4>
+<p><code>VOL</code> can be a float as shown below, in which case it reduces to the Black-Scholes Model.</p>
+<pre><code class="language-python">&quot;LV&quot;: {
+    &quot;ASSET&quot;: &quot;SPX&quot;,
+    &quot;VOL&quot;: 0.015
+}
+</code></pre>
+<h4 id="vol-function">Vol Function</h4>
+<p><code>VOL</code> can be a function as below</p>
+<pre><code class="language-python">def volfn(points):
+    # t is float, x_vec is a np array
+    (t, x_vec) = points
+
+    at = 5.0 * t + .01
+    atm = 0.04 + 0.01 * np.exp(-at)
+    skew = -1.5 * (1 - np.exp(-at)) / at
+    return np.sqrt(np.maximum(0.001, atm + x_vec * skew))
+
+
+&quot;LV&quot;: {
+    &quot;ASSET&quot;: &quot;SPX&quot;,
+    &quot;VOL&quot;: volfn
+}
+</code></pre>
+<h4 id="vol-interpolator">Vol Interpolator</h4>
+<p><code>VOL</code> can be an interpolator as below</p>
+<pre><code class="language-python">from scipy.interpolate import RegularGridInterpolator
+
+times = [0.01, 0.2, 1.0]
+strikes = [-5.0, -0.5, -0.1, 0.0, 0.1, 0.5, 5.0]
+vols = np.array([
+    [2.713, 0.884, 0.442, 0.222, 0.032, 0.032, 0.032],
+    [2.187, 0.719, 0.372, 0.209, 0.032, 0.032, 0.032],
+    [1.237, 0.435, 0.264, 0.200, 0.101, 0.032, 0.032]
+])
+volinterp = RegularGridInterpolator(
+    (times, strikes), vols, fill_value=None, bounds_error=False
+)
+
+&quot;LV&quot;: {
+    &quot;ASSET&quot;: &quot;SPX&quot;,
+    &quot;VOL&quot;: volinterp
+}
+</code></pre>
+<p>The model can be used as</p>
+<pre><code class="language-python">from qablet.black_scholes.mc import LVMCModel
+
+dataset = {
+    &quot;BASE&quot;: ...
+    &quot;PRICING_TS&quot;: ...
+    &quot;ASSETS&quot;: ...
+    &quot;MC&quot;: ...
+    &quot;LV&quot;: ...
+}
+heston_model = LVMCModel()
+price, stats = model.price(timetable, dataset)
 </code></pre>
               
             </div>

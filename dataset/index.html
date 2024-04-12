@@ -97,16 +97,28 @@
 <p>All models in the <code>qablet</code> package have a signature as follows:</p>
 <pre><code class="language-python">price, stats = model.price(timetable, dataset)
 </code></pre>
-<p>The arg timetable is a qablet timetable. The arg dataset is a dict with the following components</p>
+<p>The arg timetable is a <a href="https://qablet.github.io/qablet-contracts/">qablet timetable</a>. The arg dataset is a dict with the following components</p>
 <ul>
 <li><strong>BASE</strong> String containing the name of the base asset, i.e. the currency in which the price is denominated.</li>
+<li><strong>PRICING_TS</strong> The timestamp (milliseconds) that we will price the contract as of.</li>
 <li><strong>ASSETS</strong> Dict containing forwards of all assets in the contract, including the base asset. See <a href="../assets/">Assets</a> for more.</li>
-<li><strong>{Model Family Name}</strong> Dict containing parameters for the model family.</li>
+<li><strong>{Model Family Name}</strong> Dict containing parameters for the model family such as <strong>MC</strong> or <strong>FD</strong>.</li>
 <li><strong>{Model Name}</strong> Dict containing parameters of the model. See the <strong>MODELS</strong> section for more.</li>
 </ul>
 <h3 id="example">Example</h3>
-<pre><code class="language-python">dataset = {
+<pre><code class="language-python">import numpy as np
+from datetime import datetime
+from qablet_contracts.timetable import py_to_ts
+
+times = np.array([0.0, 1.0, 2.0, 5.0])  # in years
+rates = np.array([0.04, 0.04, 0.045, 0.05])  # i.e. 4%, etc
+fwds = np.array([100.0, 101.0, 102.0, 104.0])
+discount_data = (&quot;ZERO_RATES&quot;, np.column_stack((times, rates)))
+fwd_data = (&quot;FORWARDS&quot;, np.column_stack((times, fwds)))
+
+dataset = {
     &quot;BASE&quot;: &quot;USD&quot;,
+    &quot;PRICING_TS&quot;: py_to_ts(datetime(2023, 12, 31)).value,
     &quot;ASSETS&quot;: {&quot;USD&quot;: discount_data, &quot;SPX&quot;: fwd_data},
     &quot;MC&quot;: {
         &quot;PATHS&quot;: 100_000,
