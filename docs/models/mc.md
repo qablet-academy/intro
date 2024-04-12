@@ -54,3 +54,98 @@ e.g.
     "CORRELATION": -0.85,
 }
 ```
+
+The model can be used as
+```python
+from qablet.heston.mc import HestonMCModel
+
+dataset = {
+    "BASE": ...
+    "PRICING_TS": ...
+    "ASSETS": ...
+    "MC": ...
+    "HESTON": ...
+}
+heston_model = HestonMCModel()
+price, stats = model.price(timetable, dataset)
+```
+
+### Local Vol Model
+`qablet.black_scholes.mc.LVMCModel`
+
+In the Local Vol model the lognormal stock process \(X_t\) is given by,
+
+$$
+dX_t = (\mu - \frac{\sigma_t^2}{2}) dt + \sigma_t dW_s
+$$
+
+Where \(\sigma_t\) is a function of \(X_t\) and \(t\).
+
+The model specific component in the dataset (`LV`) is a dict with two parameters `ASSET` and `VOL`.
+
+#### Fixed Vol
+`VOL` can be a float as shown below, in which case it reduces to the Black-Scholes Model.
+
+```python
+"LV": {
+    "ASSET": "SPX",
+    "VOL": 0.015
+}
+```
+#### Vol Function
+`VOL` can be a function as below
+
+```python
+def volfn(points):
+    # t is float, x_vec is a np array
+    (t, x_vec) = points
+
+    at = 5.0 * t + .01
+    atm = 0.04 + 0.01 * np.exp(-at)
+    skew = -1.5 * (1 - np.exp(-at)) / at
+    return np.sqrt(np.maximum(0.001, atm + x_vec * skew))
+
+
+"LV": {
+    "ASSET": "SPX",
+    "VOL": volfn
+}
+```
+
+#### Vol Interpolator
+`VOL` can be an interpolator as below
+
+```python
+from scipy.interpolate import RegularGridInterpolator
+
+times = [0.01, 0.2, 1.0]
+strikes = [-5.0, -0.5, -0.1, 0.0, 0.1, 0.5, 5.0]
+vols = np.array([
+    [2.713, 0.884, 0.442, 0.222, 0.032, 0.032, 0.032],
+    [2.187, 0.719, 0.372, 0.209, 0.032, 0.032, 0.032],
+    [1.237, 0.435, 0.264, 0.200, 0.101, 0.032, 0.032]
+])
+volinterp = RegularGridInterpolator(
+    (times, strikes), vols, fill_value=None, bounds_error=False
+)
+
+"LV": {
+    "ASSET": "SPX",
+    "VOL": volinterp
+}
+```
+
+The model can be used as
+```python
+from qablet.black_scholes.mc import LVMCModel
+
+dataset = {
+    "BASE": ...
+    "PRICING_TS": ...
+    "ASSETS": ...
+    "MC": ...
+    "LV": ...
+}
+heston_model = LVMCModel()
+price, stats = model.price(timetable, dataset)
+```

@@ -11,10 +11,6 @@ This repositary contains a [learning path](https://github.com/qablet-academy/int
 - how to create custom Monte-Carlo models
 
 
-## Contracts API
-
-For the documentation of the specification language to define financial contracts see [qablet.github.io/qablet-contracts](https://qablet.github.io/qablet-contracts/).
-
 ## Model API
 
 For the documentation of the models in the `qablet` package,
@@ -22,3 +18,7 @@ For the documentation of the models in the `qablet` package,
  - For the common elements, start with [Dataset](dataset.md)
  - For the model specific details see the **MODELS** section.
  - For viewing various stats see the **STATS** section.
+
+## Contracts API
+
+For the specification language to define financial contracts see [qablet-contracts](https://qablet.github.io/qablet-contracts/) documentation.

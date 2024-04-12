@@ -1,5 +1,6 @@
 site_name: qablet
-theme: readthedocs
+theme:
+  name: readthedocs
   icon:
     logo: material/triangle
 
