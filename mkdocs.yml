@@ -19,6 +19,7 @@ markdown_extensions:
 
 nav:
   - 'index.md'
+  - 'Getting Started': 'quickstart.md'
   - 'dataset.md'
   - 'assets.md'
   - 'Models':
