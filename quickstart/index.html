@@ -5,16 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Assets - qablet</title>
+    <title>Getting Started - qablet</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
-        <link href="_mkdocstrings.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Assets";
-        var mkdocs_page_input_path = "assets.md";
+        var mkdocs_page_name = "Getting Started";
+        var mkdocs_page_input_path = "quickstart.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -44,22 +44,18 @@
                 <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
                 </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../quickstart/">Getting Started</a>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Getting Started</a>
+    <ul class="current">
+    </ul>
                 </li>
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../dataset/">Dataset</a>
                 </li>
               </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Assets</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#zero-rates">Zero Rates</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#forwards">Forwards</a>
-    </li>
-    </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../assets/">Assets</a>
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Models</span></p>
@@ -90,7 +86,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Assets</li>
+      <li class="breadcrumb-item active">Getting Started</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -99,54 +95,64 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="assets">Assets</h2>
-<p>The <code>ASSETS</code> component of the dataset describes the forwards of each asset that would be required to value a contract. This includes</p>
+                <p>You will need the following packages.</p>
 <ul>
-<li>the base asset (currency) in which the contract is valued</li>
-<li>any asset (currency, equity, commodity) received by the contract</li>
-<li>any asset value used in a snapper, or in a model</li>
+<li><code>qablet-contracts</code> contains utilities to create qablet timetables for financial contracts.</li>
+<li><code>qablet-basic</code> contains a suite of models to evaluate qablet timetables.</li>
 </ul>
-<p>In the present version the following schemas are supported to describe the forwards. This list will be extended in coming versions.</p>
-<h3 id="zero-rates">Zero Rates</h3>
-<p>You can describe the base asset using a two-column (N X 2) numpy array, where the first column is time, and the second represents <strong>term zero rates</strong>, e.g.</p>
-<pre><code>[[0.   0.04]
- [1.   0.04]
- [5.   0.05]]
+<pre><code>pip install qablet-contracts
+pip install qablet-basic
 </code></pre>
-<p>It can be created like</p>
-<pre><code class="language-python">discount_data = (&quot;ZERO_RATES&quot;, np.array([[0.0, 0.04], [1.0, .04], [5.0, 0.05]]))
+<h3 id="hello-world">Hello World</h3>
+<p>This is a simple example of creating a zero coupon bond, and pricing it using a deterministic model.</p>
+<pre><code>import numpy as np
+from pyarrow import RecordBatch as rb
+from datetime import datetime
+from qablet_contracts.timetable import TS_EVENT_SCHEMA, py_to_ts
+from qablet.base.fixed import FixedModel
+
+# Create Timetable
+events = [
+    {
+        &quot;track&quot;: &quot;&quot;,
+        &quot;time&quot;: datetime(2024, 12, 31),
+        &quot;op&quot;: &quot;+&quot;,
+        &quot;quantity&quot;: 100.0,
+        &quot;unit&quot;: &quot;USD&quot;,
+    },
+]
+timetable = {
+    &quot;events&quot;: rb.from_pylist(events, schema=TS_EVENT_SCHEMA)
+}
+
+# Create Dataset for FixedModel
+discount_data = (&quot;ZERO_RATES&quot;, np.array([[0.0, 0.04], [5.0, 0.04]])) # 4% from 0-5 years
 dataset = {
     &quot;BASE&quot;: &quot;USD&quot;,
-    &quot;PRICING_TS&quot;: ..
+    &quot;PRICING_TS&quot;: py_to_ts(datetime(2023, 12, 31)).value,
     &quot;ASSETS&quot;: {&quot;USD&quot;: discount_data},
 }
-</code></pre>
-<p>Or alternatively, using <code>np.column_stack</code> from two arrays</p>
-<pre><code class="language-python">times = np.array([0.0, 1.0, 5.0])
-rates = np.array([0.04, 0.04, 0.05])
-discount_data = (&quot;ZERO_RATES&quot;, np.column_stack((times, rates)))
-</code></pre>
-<h3 id="forwards">Forwards</h3>
-<p>You can describe any asset using a two-column (N X 2) numpy array, where the first column is time, and the second represents forwards, e.g.</p>
-<pre><code class="language-python">spot = 2900
-div_rate = 0.01
-times = np.array([0.0, 1.0, 2.0, 5.0])
-rates = np.array([0.04, 0.04, 0.045, 0.05])
-fwds = spot * np.exp((rates - div_rate) * times)
-fwd_data = (&quot;FORWARDS&quot;, np.column_stack((times, fwds)))
 
-dataset = {
-    &quot;BASE&quot;: &quot;USD&quot;,
-    &quot;PRICING_TS&quot;: ..
-    &quot;ASSETS&quot;: {&quot;SPX&quot;: fwd_data},
-}
+# Calculate Price with FixedModel
+model = FixedModel()
+price, _ = model.price(timetable, dataset)
+print(f&quot;price: {price:11.6f}&quot;)
 </code></pre>
+<h3 id="next-steps">Next Steps</h3>
+<ul>
+<li>See <a href="https://qablet.github.io/qablet-contracts/">Qablet Contracts</a> to create timetables with payments, options, triggers and path dependent features.</li>
+<li>See <a href="../dataset/">Dataset API</a> to construct a dataset from your market data.</li>
+<li>See <a href="../models/fd/">Finite Difference/PDE</a> and <a href="../models/mc/">Monte Carlo</a> models that comes with the <code>qablet-basic</code> package.</li>
+</ul>
+<p>We recommend that you bookmark the above references, and dive into the
+<a href="https://github.com/qablet-academy/intro">Qablet Learning Path</a> next.
+It is a set of Jupyter notebooks that will walk you through simple to advanced uses of Qablet.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../dataset/" class="btn btn-neutral float-left" title="Dataset"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../models/mc/" class="btn btn-neutral float-right" title="Monte-Carlo">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../dataset/" class="btn btn-neutral float-right" title="Dataset">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -169,10 +175,10 @@ dataset = {
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../dataset/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../models/mc/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../dataset/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

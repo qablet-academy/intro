@@ -41,9 +41,13 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
     </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="quickstart/">Getting Started</a>
                 </li>
               </ul>
               <ul>
@@ -91,29 +95,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="qablet-learning-path">Qablet Learning Path</h2>
-<p>A Qablet timetable defines a financial product using a sequence of payments, choices and conditions. A valuation model implemented with a Qablet parser can value any contract, as long as the contract can be described using a Qablet Timetable.</p>
-<p>This repositary contains a <a href="https://github.com/qablet-academy/intro/tree/main/notebooks">learning path</a> based on notebooks to explain</p>
+                <p>A Qablet timetable defines a financial contract using a sequence of payments, choices and conditions. A valuation model implemented with a Qablet parser can value any contract, as long as the contract can be described using a <strong>timetable</strong> such as this one -</p>
+<pre><code>          track        time op  quantity unit
+        0    #1  03/31/2024  &gt;       0.0  USD
+        1    #1  03/31/2024  +   -2900.0  USD
+        2    #1  03/31/2024  +       1.0  SPX
+</code></pre>
+<h2 id="overview">Overview</h2>
 <ul>
-<li>how to define contracts from basics, or using the <code>qablet_contracts</code> package.</li>
-<li>how to value contracts using models from the <code>qablet</code> package.</li>
-<li>how to view various stats from the model</li>
-<li>how to create custom Monte-Carlo models</li>
-</ul>
-<h2 id="model-api">Model API</h2>
-<p>For the documentation of the models in the <code>qablet</code> package,</p>
-<ul>
-<li>For the common elements, start with <a href="dataset/">Dataset</a></li>
+<li>Start with <a href="quickstart/">Getting Started</a></li>
 <li>For the model specific details see the <strong>MODELS</strong> section.</li>
 <li>For viewing various stats see the <strong>STATS</strong> section.</li>
 </ul>
-<h2 id="contracts-api">Contracts API</h2>
-<p>For the specification language to define financial contracts see <a href="https://qablet.github.io/qablet-contracts/">qablet-contracts</a> documentation.</p>
+<h2 id="other-resources">Other Resources</h2>
+<ul>
+<li><a href="https://qablet.github.io/qablet-contracts/">Qablet Contracts</a> documents the timetable semantics, and a library of contract classes. </li>
+<li><a href="https://github.com/qablet-academy/intro">Qablet Learning Path</a> is a set of Jupyter notebooks from simple to advanced uses of Qablet.</li>
+<li><a href="https://apps-dash.onrender.com/">Qablet App</a> is an interactive showcase of several Qablet contracts, with pricing and backtesting.</li>
+</ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="dataset/" class="btn btn-neutral float-right" title="Dataset">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="quickstart/" class="btn btn-neutral float-right" title="Getting Started">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -137,7 +141,7 @@
     
     
     
-      <span><a href="dataset/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="quickstart/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -157,6 +161,6 @@
 </html>
 
 <!--
-MkDocs version : 1.5.3
-Build Date UTC : 2024-04-12 18:52:38.747049+00:00
+MkDocs version : 1.6.0
+Build Date UTC : 2024-06-27 16:27:17.131446+00:00
 -->
