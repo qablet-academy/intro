@@ -3,5 +3,5 @@ pandas
 numpy
 scipy
 matplotlib
-qablet_contracts==0.2.2
+qablet_contracts==0.3.0
 qablet-basic==0.4.0
