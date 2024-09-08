@@ -1,4 +1,14 @@
-A Qablet timetable defines a financial contract using a sequence of payments, choices and conditions. A valuation model implemented with a Qablet parser can value any contract, as long as the contract can be described using a **timetable** such as this one -
+## Introduction
+
+[qablet-basic](https://pypi.org/project/qablet-basic/) contains a suite of models to evaluate qablet timetables. It includes -
+
+- [Finite Difference/PDE models](models/fd.md) such as Hull-White and Black-Scholes
+- Fixed model
+- A [Monte Carlo](models/mc.md) pricer to use any model defined using the [finmc](https://finlib.github.io/finmc/) interface.
+
+
+## What is a Qablet Timetable?
+A Qablet timetable defines a financial contract using a sequence of payments, choices and conditions. A Qablet model can value any contract, as long as the contract can be described using a **timetable** such as this one -
 
 ```
           track        time op  quantity unit
@@ -7,16 +17,15 @@ A Qablet timetable defines a financial contract using a sequence of payments, ch
         2    #1  03/31/2024  +       1.0  SPX
 ```
 
-
-## Overview
-
- - Start with [Getting Started](quickstart.md)
- - For the model specific details see the **MODELS** section.
- - For viewing various stats see the **STATS** section.
+See [Qablet Contracts](https://qablet.github.io/qablet-contracts/) for the timetable semantics, and a library of common financial contracts.
 
 
-## Other Resources
+## Getting Started
 
-- [Qablet Contracts](https://qablet.github.io/qablet-contracts/) documents the timetable semantics, and a library of contract classes. 
-- [Qablet Learning Path](https://github.com/qablet-academy/intro) is a set of Jupyter notebooks from simple to advanced uses of Qablet.
-- [Qablet App](https://apps-dash.onrender.com/) is an interactive showcase of several Qablet contracts, with pricing and backtesting.
+install from pip
+```
+pip install qablet-basic
+```
+
+Start with [Example 1: Hello World](quickstart.md)
+
