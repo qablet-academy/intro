@@ -8,9 +8,9 @@ pip install qablet-contracts
 pip install qablet-basic
 ```
 
-### Example 1: Hello World
+### Example 1: Fixed Model
 
-This is a simple example of creating a zero coupon bond, and pricing it using a deterministic/fixed model.
+In this example we create a zero coupon bond, and price it using a deterministic/fixed model.
 
 ```
 import numpy as np
@@ -47,7 +47,9 @@ price, _ = model.price(timetable, dataset)
 print(f"price: {price:11.6f}")
 ```
 
-### Example 2: Price an Option using Heston model from `finmc`
+### Example 2: Heston model
+
+In this example we price an vanilla call option using Heston model from the `finmc` package.
 
 ```
 import numpy as np

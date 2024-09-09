@@ -1,10 +1,6 @@
 ## Finite Difference Models
 
-All Finite-Difference Models (one factor) include a common section (`FD`), and a model dependent section.
-
-### Common Section
-
-The common section has the following parameters.
+All Finite-Difference Models (one factor) include a common section (`FD`), and a model dependent section. The common section has the following parameters.
 
 - **TIMESTEP**: The incremental timestep of simulation (in years).
 - **MAX_X**: Distance of the upper (or lower) boundary of the model grid from the center.

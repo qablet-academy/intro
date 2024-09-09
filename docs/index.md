@@ -3,7 +3,7 @@
 [qablet-basic](https://pypi.org/project/qablet-basic/) contains a suite of models to evaluate qablet timetables. It includes -
 
 - [Finite Difference/PDE models](models/fd.md) such as Hull-White and Black-Scholes
-- Fixed model
+- [Fixed model](models/fixed.md)
 - A [Monte Carlo](models/mc.md) pricer to use any model defined using the [finmc](https://finlib.github.io/finmc/) interface.
 
 

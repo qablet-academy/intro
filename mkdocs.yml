@@ -23,6 +23,7 @@ nav:
   - 'dataset.md'
   - 'assets.md'
   - 'Models':
+    - 'Fixed': 'models/fixed.md'
     - 'Monte-Carlo': 'models/mc.md'
     - 'Finite-Difference': 'models/fd.md'
   - 'Stats':
