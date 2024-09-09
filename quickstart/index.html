@@ -60,6 +60,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Models</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../models/fixed/">Fixed</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../models/mc/">Monte-Carlo</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../models/fd/">Finite-Difference</a>
@@ -103,8 +105,8 @@
 <pre><code>pip install qablet-contracts
 pip install qablet-basic
 </code></pre>
-<h3 id="hello-world">Hello World</h3>
-<p>This is a simple example of creating a zero coupon bond, and pricing it using a deterministic model.</p>
+<h3 id="example-1-fixed-model">Example 1: Fixed Model</h3>
+<p>In this example we create a zero coupon bond, and price it using a deterministic/fixed model.</p>
 <pre><code>import numpy as np
 from pyarrow import RecordBatch as rb
 from datetime import datetime
@@ -126,7 +128,7 @@ timetable = {
 }
 
 # Create Dataset for FixedModel
-discount_data = (&quot;ZERO_RATES&quot;, np.array([[0.0, 0.04], [5.0, 0.04]])) # 4% from 0-5 years
+discount_data = (&quot;ZERO_RATES&quot;, np.array([[5.0, 0.04]])) # 5yr : 4%
 dataset = {
     &quot;BASE&quot;: &quot;USD&quot;,
     &quot;PRICING_TS&quot;: py_to_ts(datetime(2023, 12, 31)).value,
@@ -138,15 +140,69 @@ model = FixedModel()
 price, _ = model.price(timetable, dataset)
 print(f&quot;price: {price:11.6f}&quot;)
 </code></pre>
-<h3 id="next-steps">Next Steps</h3>
-<ul>
-<li>See <a href="https://qablet.github.io/qablet-contracts/">Qablet Contracts</a> to create timetables with payments, options, triggers and path dependent features.</li>
-<li>See <a href="../dataset/">Dataset API</a> to construct a dataset from your market data.</li>
-<li>See <a href="../models/fd/">Finite Difference/PDE</a> and <a href="../models/mc/">Monte Carlo</a> models that comes with the <code>qablet-basic</code> package.</li>
-</ul>
-<p>We recommend that you bookmark the above references, and dive into the
-<a href="https://github.com/qablet-academy/intro">Qablet Learning Path</a> next.
+<h3 id="example-2-heston-model">Example 2: Heston model</h3>
+<p>In this example we price an vanilla call option using Heston model from the <code>finmc</code> package.</p>
+<pre><code>import numpy as np
+from datetime import datetime
+from qablet_contracts.eq.vanilla import Option
+from qablet_contracts.timetable import py_to_ts
+from finmc.models.heston import HestonMC
+from qablet.base.mc import MCPricer
+
+# Create option contract using qablet_contracts
+pricing_dt = datetime(2024, 3, 15)
+maturity = datetime(2024, 7, 31)
+spot = 171.17
+contract = Option(
+    &quot;USD&quot;,
+    &quot;AAPL&quot;,
+    strike=spot,
+    maturity=maturity,
+    is_call=True,
+)
+
+contract.print_events()
+
+timetable = contract.timetable()
+
+# Create dataset for Heston model
+discount_data = (&quot;ZERO_RATES&quot;, np.array([[5.0, 0.05]]))
+fwd_data = (&quot;FORWARDS&quot;, np.array([[0.0, spot], [1.0, spot * 1.03]]))
+dataset = {
+    &quot;BASE&quot;: &quot;USD&quot;,
+    &quot;PRICING_TS&quot;: py_to_ts(pricing_dt).value,
+    &quot;ASSETS&quot;: {&quot;USD&quot;: discount_data, &quot;AAPL&quot;: fwd_data},
+    &quot;MC&quot;: {
+        &quot;PATHS&quot;: 100_000,
+        &quot;TIMESTEP&quot;: 1 / 250,
+        &quot;SEED&quot;: 1,
+    },
+    &quot;HESTON&quot;: {
+        &quot;ASSET&quot;: &quot;AAPL&quot;,
+        &quot;INITIAL_VAR&quot;: 0.015,
+        &quot;LONG_VAR&quot;: 0.052,
+        &quot;VOL_OF_VOL&quot;: 0.88,
+        &quot;MEANREV&quot;: 2.78,
+        &quot;CORRELATION&quot;: -0.85,
+    },
+}
+
+# Price
+model = MCPricer(HestonMC)
+price, _ = model.price(timetable, dataset)
+print(f&quot;price: {price:11.6f}&quot;)
+</code></pre>
+<h3 id="next-step">Next Step</h3>
+<p>Dive into the
+<a href="https://github.com/qablet-academy/intro/blob/main/notebooks/1_1_fixed_bond.ipynb">Qablet Learning Path</a> next.
 It is a set of Jupyter notebooks that will walk you through simple to advanced uses of Qablet.</p>
+<h2 id="other-resources">Other Resources</h2>
+<ul>
+<li>See <a href="https://qablet.github.io/qablet-contracts/">Qablet Contracts</a> for the timetable semantics, and a library of common financial contracts.</li>
+<li>See <a href="../dataset/">Dataset API</a> to construct a dataset from your market environment.</li>
+<li>See <a href="../models/fd/">Finite Difference/PDE</a> and <a href="../models/mc/">Monte Carlo</a> models in the <code>qablet-basic</code> package.</li>
+<li>Try <a href="https://apps-dash.onrender.com/">Qablet App</a> - an interactive showcase of several Qablet contracts, for pricing and backtesting.</li>
+</ul>
               
             </div>
           </div><footer>

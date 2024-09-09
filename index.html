@@ -60,6 +60,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Models</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="models/fixed/">Fixed</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="models/mc/">Monte-Carlo</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="models/fd/">Finite-Difference</a>
@@ -95,24 +97,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>A Qablet timetable defines a financial contract using a sequence of payments, choices and conditions. A valuation model implemented with a Qablet parser can value any contract, as long as the contract can be described using a <strong>timetable</strong> such as this one -</p>
+                <h2 id="introduction">Introduction</h2>
+<p><a href="https://pypi.org/project/qablet-basic/">qablet-basic</a> contains a suite of models to evaluate qablet timetables. It includes -</p>
+<ul>
+<li><a href="models/fd/">Finite Difference/PDE models</a> such as Hull-White and Black-Scholes</li>
+<li><a href="models/fixed/">Fixed model</a></li>
+<li>A <a href="models/mc/">Monte Carlo</a> pricer to use any model defined using the <a href="https://finlib.github.io/finmc/">finmc</a> interface.</li>
+</ul>
+<h2 id="what-is-a-qablet-timetable">What is a Qablet Timetable?</h2>
+<p>A Qablet timetable defines a financial contract using a sequence of payments, choices and conditions. A Qablet model can value any contract, as long as the contract can be described using a <strong>timetable</strong> such as this one -</p>
 <pre><code>          track        time op  quantity unit
         0    #1  03/31/2024  &gt;       0.0  USD
         1    #1  03/31/2024  +   -2900.0  USD
         2    #1  03/31/2024  +       1.0  SPX
 </code></pre>
-<h2 id="overview">Overview</h2>
-<ul>
-<li>Start with <a href="quickstart/">Getting Started</a></li>
-<li>For the model specific details see the <strong>MODELS</strong> section.</li>
-<li>For viewing various stats see the <strong>STATS</strong> section.</li>
-</ul>
-<h2 id="other-resources">Other Resources</h2>
-<ul>
-<li><a href="https://qablet.github.io/qablet-contracts/">Qablet Contracts</a> documents the timetable semantics, and a library of contract classes. </li>
-<li><a href="https://github.com/qablet-academy/intro">Qablet Learning Path</a> is a set of Jupyter notebooks from simple to advanced uses of Qablet.</li>
-<li><a href="https://apps-dash.onrender.com/">Qablet App</a> is an interactive showcase of several Qablet contracts, with pricing and backtesting.</li>
-</ul>
+<p>See <a href="https://qablet.github.io/qablet-contracts/">Qablet Contracts</a> for the timetable semantics, and a library of common financial contracts.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>install from pip</p>
+<pre><code>pip install qablet-basic
+</code></pre>
+<p>Start with <a href="quickstart/">Example 1: Hello World</a></p>
               
             </div>
           </div><footer>
@@ -161,6 +165,6 @@
 </html>
 
 <!--
-MkDocs version : 1.6.0
-Build Date UTC : 2024-06-27 16:27:17.131446+00:00
+MkDocs version : 1.6.1
+Build Date UTC : 2024-09-09 04:58:15.686696+00:00
 -->
