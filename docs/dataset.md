@@ -1,10 +1,14 @@
-## Dataset
 
 All models in the `qablet` package have a signature as follows:
+The arg timetable is a [qablet timetable](https://qablet.github.io/qablet-contracts/).
+
 ```python
 price, stats = model.price(timetable, dataset)
 ```
-The arg timetable is a [qablet timetable](https://qablet.github.io/qablet-contracts/). The arg dataset is a dict with the following components
+
+## Dataset
+
+The arg dataset is a dict with the following components
 
  - **BASE** String containing the name of the base asset, i.e. the currency in which the price is denominated.
  - **PRICING_TS** The timestamp (milliseconds) that we will price the contract as of.
@@ -16,7 +20,6 @@ The arg timetable is a [qablet timetable](https://qablet.github.io/qablet-contra
 ```python
 import numpy as np
 from datetime import datetime
-from qablet_contracts.timetable import py_to_ts
 
 times = np.array([0.0, 1.0, 2.0, 5.0])  # in years
 rates = np.array([0.04, 0.04, 0.045, 0.05])  # i.e. 4%, etc
@@ -26,7 +29,7 @@ fwd_data = ("FORWARDS", np.column_stack((times, fwds)))
 
 dataset = {
     "BASE": "USD",
-    "PRICING_TS": py_to_ts(datetime(2023, 12, 31)).value,
+    "PRICING_TS": datetime(2023, 12, 31),
     "ASSETS": {"USD": discount_data, "SPX": fwd_data},
     "MC": {
         "PATHS": 100_000,

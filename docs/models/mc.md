@@ -1,6 +1,7 @@
 ## Monte-Carlo Models
 
-All Monte-Carlo Models include a common section (`MC`), and a model dependent section.
+The qablet package includes a wrapper class to use any Monte-Carlo model from the `finmc` package.
+The dataset for Monte-Carlo Models should include a common section (`MC`), and a model dependent section.
 The common section has the following parameters.
 
 - **PATHS**: The number of Monte-Carlo paths.
@@ -15,6 +16,9 @@ e.g.
     "SEED": 1,
 },
 ```
+
+The model dependent section should include whatever is required by the corresponding finmc model.
+
 ## finmc models
 
 The `finmc` package contains Monte-Carlo implementations of many financial models derived from a common interface class.
@@ -40,6 +44,6 @@ it should contain the `PRICING_TS` component for the datetime that we are calcul
 ```
 dataset = {
     "BASE": "USD",
-    "PRICING_TS": py_to_ts(pricing_dt).value,
+    "PRICING_TS": pricing_dt,
     ...
 ```

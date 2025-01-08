@@ -15,6 +15,8 @@ e.g.
 },
 ```
 
+The qablet package implements the following Finite Difference models.
+
 ### Black-Scholes Model
 `qablet.black_scholes.fd.BSFDModel`
 

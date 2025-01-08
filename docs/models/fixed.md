@@ -1,11 +1,12 @@
 ## Fixed Model
 
-The fixed model requires no model specific parameters.
+The qablet package includes a Fixed Model that calculates price using deterministic cashflows and discount curve.
+The dataset for a fixed model requires no model specific parameters, just the common one [described here](../dataset.md)
 
 ```
 dataset = {
     "BASE": "USD",
-    "PRICING_TS": py_to_ts(datetime(2023, 12, 31)).value,
+    "PRICING_TS": datetime(2023, 12, 31),
     "ASSETS": {"USD": discount_data},
 }
 ```
