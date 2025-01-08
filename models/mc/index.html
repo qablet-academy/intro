@@ -99,7 +99,8 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="monte-carlo-models">Monte-Carlo Models</h2>
-<p>All Monte-Carlo Models include a common section (<code>MC</code>), and a model dependent section.
+<p>The qablet package includes a wrapper class to use any Monte-Carlo model from the <code>finmc</code> package.
+The dataset for Monte-Carlo Models should include a common section (<code>MC</code>), and a model dependent section.
 The common section has the following parameters.</p>
 <ul>
 <li><strong>PATHS</strong>: The number of Monte-Carlo paths.</li>
@@ -113,6 +114,7 @@ The common section has the following parameters.</p>
     &quot;SEED&quot;: 1,
 },
 </code></pre>
+<p>The model dependent section should include whatever is required by the corresponding finmc model.</p>
 <h2 id="finmc-models">finmc models</h2>
 <p>The <code>finmc</code> package contains Monte-Carlo implementations of many financial models derived from a common interface class.
 You can price qablet contracts using <code>finmc</code> models by creating a model instance as follows.</p>
@@ -131,7 +133,7 @@ model = MCPricer(HestonMC)
 it should contain the <code>PRICING_TS</code> component for the datetime that we are calculating price as of.</p>
 <pre><code>dataset = {
     &quot;BASE&quot;: &quot;USD&quot;,
-    &quot;PRICING_TS&quot;: py_to_ts(pricing_dt).value,
+    &quot;PRICING_TS&quot;: pricing_dt,
     ...
 </code></pre>
               

@@ -108,9 +108,7 @@ pip install qablet-basic
 <h3 id="example-1-fixed-model">Example 1: Fixed Model</h3>
 <p>In this example we create a zero coupon bond, and price it using a deterministic/fixed model.</p>
 <pre><code>import numpy as np
-from pyarrow import RecordBatch as rb
 from datetime import datetime
-from qablet_contracts.timetable import TS_EVENT_SCHEMA, py_to_ts
 from qablet.base.fixed import FixedModel
 
 # Create Timetable
@@ -123,15 +121,14 @@ events = [
         &quot;unit&quot;: &quot;USD&quot;,
     },
 ]
-timetable = {
-    &quot;events&quot;: rb.from_pylist(events, schema=TS_EVENT_SCHEMA)
-}
+timetable = {&quot;events&quot;: events}
+
 
 # Create Dataset for FixedModel
 discount_data = (&quot;ZERO_RATES&quot;, np.array([[5.0, 0.04]])) # 5yr : 4%
 dataset = {
     &quot;BASE&quot;: &quot;USD&quot;,
-    &quot;PRICING_TS&quot;: py_to_ts(datetime(2023, 12, 31)).value,
+    &quot;PRICING_TS&quot;: datetime(2023, 12, 31),
     &quot;ASSETS&quot;: {&quot;USD&quot;: discount_data},
 }
 
@@ -145,7 +142,6 @@ print(f&quot;price: {price:11.6f}&quot;)
 <pre><code>import numpy as np
 from datetime import datetime
 from qablet_contracts.eq.vanilla import Option
-from qablet_contracts.timetable import py_to_ts
 from finmc.models.heston import HestonMC
 from qablet.base.mc import MCPricer
 
@@ -170,7 +166,7 @@ discount_data = (&quot;ZERO_RATES&quot;, np.array([[5.0, 0.05]]))
 fwd_data = (&quot;FORWARDS&quot;, np.array([[0.0, spot], [1.0, spot * 1.03]]))
 dataset = {
     &quot;BASE&quot;: &quot;USD&quot;,
-    &quot;PRICING_TS&quot;: py_to_ts(pricing_dt).value,
+    &quot;PRICING_TS&quot;: pricing_dt,
     &quot;ASSETS&quot;: {&quot;USD&quot;: discount_data, &quot;AAPL&quot;: fwd_data},
     &quot;MC&quot;: {
         &quot;PATHS&quot;: 100_000,

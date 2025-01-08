@@ -99,10 +99,11 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="fixed-model">Fixed Model</h2>
-<p>The fixed model requires no model specific parameters.</p>
+<p>The qablet package includes a Fixed Model that calculates price using deterministic cashflows and discount curve.
+The dataset for a fixed model requires no model specific parameters, just the common one <a href="../../dataset/">described here</a></p>
 <pre><code>dataset = {
     &quot;BASE&quot;: &quot;USD&quot;,
-    &quot;PRICING_TS&quot;: py_to_ts(datetime(2023, 12, 31)).value,
+    &quot;PRICING_TS&quot;: datetime(2023, 12, 31),
     &quot;ASSETS&quot;: {&quot;USD&quot;: discount_data},
 }
 </code></pre>
