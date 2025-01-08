@@ -14,9 +14,7 @@ In this example we create a zero coupon bond, and price it using a deterministic
 
 ```
 import numpy as np
-from pyarrow import RecordBatch as rb
 from datetime import datetime
-from qablet_contracts.timetable import TS_EVENT_SCHEMA, py_to_ts
 from qablet.base.fixed import FixedModel
 
 # Create Timetable
@@ -29,15 +27,14 @@ events = [
         "unit": "USD",
     },
 ]
-timetable = {
-    "events": rb.from_pylist(events, schema=TS_EVENT_SCHEMA)
-}
+timetable = {"events": events}
+
 
 # Create Dataset for FixedModel
 discount_data = ("ZERO_RATES", np.array([[5.0, 0.04]])) # 5yr : 4%
 dataset = {
     "BASE": "USD",
-    "PRICING_TS": py_to_ts(datetime(2023, 12, 31)).value,
+    "PRICING_TS": datetime(2023, 12, 31),
     "ASSETS": {"USD": discount_data},
 }
 
@@ -55,7 +52,6 @@ In this example we price an vanilla call option using Heston model from the `fin
 import numpy as np
 from datetime import datetime
 from qablet_contracts.eq.vanilla import Option
-from qablet_contracts.timetable import py_to_ts
 from finmc.models.heston import HestonMC
 from qablet.base.mc import MCPricer
 
@@ -80,7 +76,7 @@ discount_data = ("ZERO_RATES", np.array([[5.0, 0.05]]))
 fwd_data = ("FORWARDS", np.array([[0.0, spot], [1.0, spot * 1.03]]))
 dataset = {
     "BASE": "USD",
-    "PRICING_TS": py_to_ts(pricing_dt).value,
+    "PRICING_TS": pricing_dt,
     "ASSETS": {"USD": discount_data, "AAPL": fwd_data},
     "MC": {
         "PATHS": 100_000,

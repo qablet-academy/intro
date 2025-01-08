@@ -13,4 +13,4 @@ nb-clean
 matplotlib
 finmc==0.0.5
 qablet_contracts==0.3.0
-qablet-basic==0.4.4
+qablet-basic==0.4.6

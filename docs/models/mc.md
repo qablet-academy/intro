@@ -26,7 +26,7 @@ from qablet.base.mc import MCPricer
 model = MCPricer(HestonMC)
 ```
 
-See a [complete example here.](../../quickstart/#example-2-heston-model)
+See a [complete example here.](../quickstart.md#example-2-heston-model)
 
 See the documentattion of `finmc` models here -
 

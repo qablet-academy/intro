@@ -10,4 +10,4 @@ dataset = {
 }
 ```
 
-See a [complete example here.](../../quickstart/#example-1-fixed-model)
+See a [complete example here.](../quickstart.md#example-1-fixed-model)
